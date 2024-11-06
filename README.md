@@ -3,10 +3,6 @@
 
 This service accepts data for multiple financial trades and returns the total commission amount calculated for all the specified trades.
 
-### Prerequisites
-
-- Java Development Kit (JDK) 11 or later
-
 ### Folder Structure
 
 - `src`: the folder to maintain sources
