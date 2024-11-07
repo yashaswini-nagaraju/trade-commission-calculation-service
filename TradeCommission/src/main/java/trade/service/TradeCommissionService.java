@@ -17,9 +17,16 @@ import main.java.trade.strategy.STOCommissionStrategy;
  */
 public class TradeCommissionService {
 
+    /**
+     * A map of security types to their corresponding commission strategies.
+     */
+    /**
+     * Executor service for handling commission calculations in parallel.
+     */
+
     // A map of security types to their corresponding commission strategies.
     private final Map<SecurityType, CommissionStrategy> strategies = new EnumMap<>(SecurityType.class);
-
+    
     //Executor service for handling commission calculations in parallel.
     private final ExecutorService executor;
 
@@ -34,8 +41,11 @@ public class TradeCommissionService {
         strategies.put(SecurityType.FX, new FXCommissionStrategy());
     }
 
-    //Calculates the commission for a given trade.
+    // Calculates the commission for a given trade.
     public double calculateCommission(Trade trade) {
+        if (trade == null) {
+            throw new IllegalArgumentException("Trade cannot be null");
+        }
         SecurityType securityType = trade.getSecurityType();
         CommissionStrategy commissionStrategy = strategies.get(securityType);
         if (commissionStrategy != null) {
@@ -49,11 +59,11 @@ public class TradeCommissionService {
      * This method uses multi-threading to calculate commissions in parallel.
      */
     public double calculateTotalCommission(List<Trade> trades) {
-        List<Future<Double>> futures = trades.stream()
+        var futures = trades.stream()
                 .map(trade -> executor.submit(() -> calculateCommission(trade)))
                 .collect(Collectors.toList());
 
-        double totalCommission = futures.stream()
+        var totalCommission = futures.stream()
                 .mapToDouble(future -> {
                     try {
                         return future.get();

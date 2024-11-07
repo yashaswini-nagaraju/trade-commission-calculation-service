@@ -17,11 +17,11 @@ public class STOCommissionStrategy implements CommissionStrategy {
 
     @Override
     public double calculate(Trade trade) {
-        double tradeAmount = trade.getAmount().doubleValue();
-        double commission = tradeAmount * STO_COMMISSION_RATE;
+        var tradeAmount = trade.getAmount().doubleValue();
+        var commission = tradeAmount * STO_COMMISSION_RATE;
 
         // Check if the transaction is a high-value sell
-        boolean highValueSell = trade.getTransactionType() == TransactionType.SELL && tradeAmount > HIGH_SELL_THRESHOLD;
+        var highValueSell = trade.getTransactionType() == TransactionType.SELL && tradeAmount > HIGH_SELL_THRESHOLD;
         if (highValueSell) {
             // Adding additional commission for high-value sell transactions
             commission += ADDITIONAL_SELL_COMMISSION;

@@ -23,19 +23,12 @@ public class BONCommissionStrategy implements CommissionStrategy {
             throw new IllegalArgumentException("Trade, trade amount, and transaction type must not be null");
         }
 
-        BigDecimal tradeAmount = trade.getAmount();
-        BigDecimal commissionRate;
-
-        switch (trade.getTransactionType()) {
-            case BUY:
-                commissionRate = BigDecimal.valueOf(BUY_COMMISSION_RATE);
-                break;
-            case SELL:
-                commissionRate = BigDecimal.valueOf(SELL_COMMISSION_RATE);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported transaction type: " + trade.getTransactionType());
-        }
+        var tradeAmount = trade.getAmount();
+        var commissionRate = switch (trade.getTransactionType()) {
+            case BUY -> BigDecimal.valueOf(BUY_COMMISSION_RATE);
+            case SELL -> BigDecimal.valueOf(SELL_COMMISSION_RATE);
+            default -> throw new IllegalArgumentException("Unsupported transaction type: " + trade.getTransactionType());
+        };
 
         return tradeAmount.multiply(commissionRate).doubleValue();
     }

@@ -35,7 +35,8 @@ public class Trade {
     }
 
     public BigDecimal getAmount() {
-        return quantity.multiply(price);
+        var amount = quantity.multiply(price);
+        return amount;
     }
 
     public SecurityType getSecurityType() {

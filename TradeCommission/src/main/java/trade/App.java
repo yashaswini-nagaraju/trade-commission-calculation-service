@@ -11,7 +11,7 @@ import main.java.trade.service.TradeCommissionService;
 public class App {
     public static void main(String[] args) {
         // Sample data
-        List<Trade> trades = Arrays.asList(
+        var trades = Arrays.asList(
                 new Trade("01/01/2019 10:00:00", SecurityType.STO, TransactionType.BUY, BigDecimal.valueOf(1000), BigDecimal.valueOf(12)),
                 new Trade("01/01/2019 11:00:00", SecurityType.BON, TransactionType.SELL, BigDecimal.valueOf(500), BigDecimal.valueOf(200)),
                 new Trade("01/01/2019 12:00:00", SecurityType.FX, TransactionType.BUY, BigDecimal.valueOf(10000), BigDecimal.valueOf(1.5)),
@@ -24,11 +24,11 @@ public class App {
         );
 
         TradeCommissionService service = new TradeCommissionService(10);
-        double totalCommission = 0;
+        var totalCommission = 0.0;
 
         // Calculate and print commission for each trade
         for (Trade trade : trades) {
-            double commission = service.calculateCommission(trade);
+            var commission = service.calculateCommission(trade);
             totalCommission += commission;
             System.out.printf("Timestamp of trade: %s, Commission: $%.2f%n", trade.getTimestamp(), commission);
         }

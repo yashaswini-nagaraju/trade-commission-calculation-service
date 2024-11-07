@@ -24,20 +24,19 @@ public class FXCommissionStrategy implements CommissionStrategy {
 
     @Override
     public double calculate(Trade trade) {
-        double tradeAmount = trade.getAmount().doubleValue();
-        switch (trade.getTransactionType()) {
-            case BUY:
-                return tradeAmount * FX_BUY_COMMISSION_RATE;
-            case SELL:
-                if (tradeAmount > HIGH_SELL_THRESHOLD) {
-                    return HIGH_SELL_COMMISSION;
-                } else if (tradeAmount > MEDIUM_SELL_THRESHOLD) {
-                    return MEDIUM_SELL_COMMISSION;
-                } else {
-                    return 0;
-                }
-            default:
-                throw new IllegalArgumentException("Unsupported transaction type: " + trade.getTransactionType());
-        }
+        var tradeAmount = trade.getAmount().doubleValue();
+        return switch (trade.getTransactionType()) {
+            case BUY -> tradeAmount * FX_BUY_COMMISSION_RATE;
+            case SELL -> {
+            if (tradeAmount > HIGH_SELL_THRESHOLD) {
+                yield HIGH_SELL_COMMISSION;
+            } else if (tradeAmount > MEDIUM_SELL_THRESHOLD) {
+                yield MEDIUM_SELL_COMMISSION;
+            } else {
+                yield 0;
+            }
+            }
+            default -> throw new IllegalArgumentException("Unsupported transaction type: " + trade.getTransactionType());
+        };
     }
 }
