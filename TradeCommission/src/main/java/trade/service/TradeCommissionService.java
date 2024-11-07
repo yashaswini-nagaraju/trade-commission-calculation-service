@@ -17,13 +17,6 @@ import main.java.trade.strategy.STOCommissionStrategy;
  */
 public class TradeCommissionService {
 
-    /**
-     * A map of security types to their corresponding commission strategies.
-     */
-    /**
-     * Executor service for handling commission calculations in parallel.
-     */
-
     // A map of security types to their corresponding commission strategies.
     private final Map<SecurityType, CommissionStrategy> strategies = new EnumMap<>(SecurityType.class);
     
